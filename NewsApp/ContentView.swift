@@ -10,10 +10,54 @@ import Foundation
 
 struct ContentView: View {
     
-    @State private var testeTexto = ""
     @State private var stateArtigosArray = [String]()
+    @State private var stateArtigosImagensArray = [String]()
     
     let url = URL(string: "https://newsapi.org/v2/top-headlines?country=br&apiKey=295414512a19411a93582f0f697449e9")
+    
+    func handle(data: Data?, response: URLResponse?, error: Error?) {
+        let content = try? JSONSerialization.jsonObject(with: data!, options: [])
+        var artigosArray = [String]()
+        var artigosImagensArray = [String]()
+        
+        if let dictionary = content as? [String: Any] {
+            if let teste = dictionary["articles"] as? [[String: Any]] {
+                for conteudo in teste {
+                    artigosArray.append(String(describing: conteudo["content"]!))
+                    artigosImagensArray.append(String(describing: conteudo["urlToImage"]))
+                    
+                }
+                
+                artigosArray = artigosArray.filter() {
+                    $0 != "<null>"
+                }
+                
+                artigosImagensArray = artigosImagensArray.filter() {
+                    $0 != "<null>"
+                }
+                
+                self.stateArtigosArray = artigosArray
+                self.stateArtigosImagensArray = artigosImagensArray
+                
+                print(self.stateArtigosImagensArray.count)
+                print(self.stateArtigosArray.count)
+                
+                //Fazer Request das imagens e incluir cada request dentro do if se o artigo for null para que as imagens não venham diferente das noticais
+                // Pode haver noticia que n seja mostrada e pode ter imagens das noticias que não foram mostradas
+                
+                artigosImagensArray = [String]()
+                artigosArray = [String]()
+                
+            } else {
+                print("Erro aqui => 2")
+        
+            }
+        
+        } else {
+            print("Erro aqui => 1")
+        
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -34,34 +78,6 @@ struct ContentView: View {
                     .frame(width: 170, height: 50, alignment: .center)
                     .overlay(
                         Button("Atualziar Notícias") {
-                            func handle(data: Data?, response: URLResponse?, error: Error?) {
-                                let content = try? JSONSerialization.jsonObject(with: data!, options: [])
-                                var artigosArray = [String]()
-                                
-                                if let dictionary = content as? [String: Any] {
-                                    if let teste = dictionary["articles"] as? [[String: Any]] {
-                                        for conteudo in teste {
-                                            artigosArray.append(String(describing: conteudo["content"]!))
-                                            
-                                        }
-                                        
-                                        artigosArray = artigosArray.filter() {
-                                            $0 != "<null>"
-                                        }
-                                        self.stateArtigosArray = artigosArray
-                                        artigosArray = [String]()
-                                        
-                                    } else {
-                                        print("Erro aqui => 2")
-                                
-                                    }
-                                
-                                } else {
-                                    print("Erro aqui => 1")
-                                
-                                }
-                            }
-                            
                             let config = URLSessionConfiguration.default
                             config.waitsForConnectivity = true
                             config.timeoutIntervalForResource = 60
