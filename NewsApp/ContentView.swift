@@ -12,7 +12,7 @@ struct ContentView: View {
     
     @State private var stateArtigosArray = [String]()
     @State private var stateArtigosImagensArray = [String]()
-    @State private var stateImageUrl = UIImage()
+    @State private var stateTesteArrayUIImage = [UIImage]()
     
     let url = URL(string: "https://newsapi.org/v2/top-headlines?country=br&apiKey=295414512a19411a93582f0f697449e9")
     
@@ -30,9 +30,13 @@ struct ContentView: View {
                 
                 self.stateArtigosArray = artigosArray
                 self.stateArtigosImagensArray = artigosImagensArray
+                
+                
+                print(self.stateArtigosImagensArray.count)
+                getImagesFromUrl()
 
                 // Limpa os arrays para uma próxima atualização
-                artigosImagensArray = [String]()
+                //artigosImagensArray = [String]()
                 artigosArray = [String]()
                 
             } else {
@@ -46,11 +50,23 @@ struct ContentView: View {
         }
     }
     
-    func handle2(data: Data?, response: URLResponse?, error: Error?) {
-        if let safeData = data {
-            print(String(describing: safeData))
+    func getImagesFromUrl() {
+        print("Inicializando download das imagens....")
+        var imageToReturn = [UIImage]()
+        
+        for url in self.stateArtigosImagensArray {
+            print("Fazendo request para a URL => \(url)")
+            if let getURL = URL(string: url) {
+                if let data = try? Data(contentsOf: getURL) {
+                    if let image = UIImage(data: data) {
+                        imageToReturn.append(image)
+                    }
+                }
+            }
             
+            self.stateTesteArrayUIImage = imageToReturn
         }
+        
     }
     
     var body: some View {
@@ -79,26 +95,6 @@ struct ContentView: View {
                             let task = session.dataTask(with: url!, completionHandler: handle(data:response:error:))
                             task.resume()
                             
-                            if self.stateArtigosImagensArray.count > 1 {
-                                
-                                if let testeURL = URL(string: self.stateArtigosImagensArray[0]) {
-                                    print(testeURL)
-                                    
-                                        if let data = try? Data(contentsOf: testeURL) {
-                                            print(data)
-                                            print(testeURL)
-                                            if let image = UIImage(data: data) {
-                                                self.stateImageUrl = image
-                                            }
-                                        } else {
-                                            print("Erro22222")
-                                        }
-                                    
-                                } else {
-                                    print("Deu merda")
-                                }
-                            }
-                            
                             self.stateArtigosArray = [String]()
                             self.stateArtigosImagensArray = [String]()
                             
@@ -108,9 +104,9 @@ struct ContentView: View {
                 Spacer()
                 
                 ScrollView() {
-                    if stateArtigosArray.count > 1 {
+                    if stateTesteArrayUIImage.count > 1 {
                         VStack {
-                            ForEach(0..<stateArtigosArray.count) { index in
+                            ForEach(0..<stateTesteArrayUIImage.count) { index in
                                 RoundedRectangle(cornerRadius: 25.0)
                                     .frame(width: 350, height: 200, alignment: .center)
                                     .foregroundColor(.blue)
@@ -124,13 +120,14 @@ struct ContentView: View {
                                             .padding(.leading, 5)
                                             .padding(.trailing, 5)
                                         )
-                                    
-                                
+                                    .overlay(
+                                        Image(uiImage: self.stateTesteArrayUIImage[index])
+                                            .resizable()
+                                            .frame(width: 64, height: 64, alignment: .trailing)
+                                    )
+
                                 
                             }
-                            
-                            Image(uiImage: self.stateImageUrl)
-                            
                         } .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }
