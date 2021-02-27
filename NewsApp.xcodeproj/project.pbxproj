@@ -85,6 +85,8 @@
 			dependencies = (
 			);
 			name = NewsApp;
+			packageProductDependencies = (
+			);
 			productName = NewsApp;
 			productReference = 2C73749D25E2F4E300A4FF17 /* NewsApp.app */;
 			productType = "com.apple.product-type.application";
@@ -112,6 +114,8 @@
 				Base,
 			);
 			mainGroup = 2C73749425E2F4E300A4FF17;
+			packageReferences = (
+			);
 			productRefGroup = 2C73749E25E2F4E300A4FF17 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

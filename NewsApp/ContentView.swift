@@ -12,6 +12,7 @@ struct ContentView: View {
     
     @State private var stateArtigosArray = [String]()
     @State private var stateArtigosImagensArray = [String]()
+    @State private var stateImageUrl = UIImage()
     
     let url = URL(string: "https://newsapi.org/v2/top-headlines?country=br&apiKey=295414512a19411a93582f0f697449e9")
     
@@ -23,28 +24,14 @@ struct ContentView: View {
         if let dictionary = content as? [String: Any] {
             if let teste = dictionary["articles"] as? [[String: Any]] {
                 for conteudo in teste {
-                    artigosArray.append(String(describing: conteudo["content"]!))
-                    artigosImagensArray.append(String(describing: conteudo["urlToImage"]))
-                    
-                }
-                
-                artigosArray = artigosArray.filter() {
-                    $0 != "<null>"
-                }
-                
-                artigosImagensArray = artigosImagensArray.filter() {
-                    $0 != "<null>"
+                    artigosArray.append(String(describing: conteudo["title"]!))
+                    artigosImagensArray.append(String(describing: conteudo["urlToImage"]!))
                 }
                 
                 self.stateArtigosArray = artigosArray
                 self.stateArtigosImagensArray = artigosImagensArray
-                
-                print(self.stateArtigosImagensArray.count)
-                print(self.stateArtigosArray.count)
-                
-                //Fazer Request das imagens e incluir cada request dentro do if se o artigo for null para que as imagens não venham diferente das noticais
-                // Pode haver noticia que n seja mostrada e pode ter imagens das noticias que não foram mostradas
-                
+
+                // Limpa os arrays para uma próxima atualização
                 artigosImagensArray = [String]()
                 artigosArray = [String]()
                 
@@ -56,6 +43,13 @@ struct ContentView: View {
         } else {
             print("Erro aqui => 1")
         
+        }
+    }
+    
+    func handle2(data: Data?, response: URLResponse?, error: Error?) {
+        if let safeData = data {
+            print(String(describing: safeData))
+            
         }
     }
     
@@ -85,7 +79,28 @@ struct ContentView: View {
                             let task = session.dataTask(with: url!, completionHandler: handle(data:response:error:))
                             task.resume()
                             
+                            if self.stateArtigosImagensArray.count > 1 {
+                                
+                                if let testeURL = URL(string: self.stateArtigosImagensArray[0]) {
+                                    print(testeURL)
+                                    
+                                        if let data = try? Data(contentsOf: testeURL) {
+                                            print(data)
+                                            print(testeURL)
+                                            if let image = UIImage(data: data) {
+                                                self.stateImageUrl = image
+                                            }
+                                        } else {
+                                            print("Erro22222")
+                                        }
+                                    
+                                } else {
+                                    print("Deu merda")
+                                }
+                            }
+                            
                             self.stateArtigosArray = [String]()
+                            self.stateArtigosImagensArray = [String]()
                             
                         }.accentColor(.black)
                     )
@@ -108,8 +123,14 @@ struct ContentView: View {
                                             .padding(.top, 5)
                                             .padding(.leading, 5)
                                             .padding(.trailing, 5)
-                                    )
+                                        )
+                                    
+                                
+                                
                             }
+                            
+                            Image(uiImage: self.stateImageUrl)
+                            
                         } .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }
