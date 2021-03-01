@@ -8,8 +8,8 @@
 import SwiftUI
 import Foundation
 
-var imageToReturn = [UIImage]()
-var imagemTestTemp = UIImage()
+let url = URL(string: "https://newsapi.org/v2/top-headlines?country=br&apiKey=295414512a19411a93582f0f697449e9")
+
 
 struct ContentView: View {
     
@@ -18,21 +18,17 @@ struct ContentView: View {
     @State private var stateTesteArrayUIImage = [UIImage]()
     @State private var indexParaArtigos = 0
     
-    let url = URL(string: "https://newsapi.org/v2/top-headlines?country=br&apiKey=295414512a19411a93582f0f697449e9")
-    
     func handle(data: Data?, response: URLResponse?, error: Error?) {
-        let content = try? JSONSerialization.jsonObject(with: data!, options: [])
+        let conteudoJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
         var artigosArray = [String]()
         var artigosImagensArray = [String]()
         
-        if let dictionary = content as? [String: Any] {
-            if let teste = dictionary["articles"] as? [[String: Any]] {
-                for conteudo in teste {
+        if let dicionario = conteudoJSON as? [String: Any] {
+            if let conteudoArtigos = dicionario["articles"] as? [[String: Any]] {
+                for conteudo in conteudoArtigos {
                     if String(describing: conteudo["urlToImage"]!) != "<null>" {
                         artigosArray.append(String(describing: conteudo["title"]!))
                         artigosImagensArray.append(String(describing: conteudo["urlToImage"]!))
-                    } else {
-                        print("Achei um <null>")
                     }
                 }
                 
@@ -40,18 +36,11 @@ struct ContentView: View {
                 self.stateArtigosImagensArray = artigosImagensArray
                 
                 getImagesFromUrl()
-
-                print(self.stateArtigosArray.count)
-                
-                // Limpa os arrays para uma próxima atualização
-                //artigosImagensArray = [String]()
-                //artigosArray = [String]()
                 
             } else {
                 print("Erro aqui => 2")
         
             }
-        
         } else {
             print("Erro aqui => 1")
         
@@ -60,6 +49,9 @@ struct ContentView: View {
         
     func getImagesFromUrl() {
         print("Inicializando download das imagens....")
+        
+        var imageToReturn = [UIImage]()
+        self.stateTesteArrayUIImage = [UIImage]()
         
         for url in self.stateArtigosImagensArray {
             print("Fazendo request para a URL => \(url)")
@@ -113,20 +105,21 @@ struct ContentView: View {
                 Spacer()
                 
                 ScrollView() {
-                    if self.stateTesteArrayUIImage.count == imageToReturn.count {
+                    if self.stateTesteArrayUIImage.count == self.stateArtigosArray.count {
                         ZStack {
                             VStack {
                                 ForEach(stateArtigosArray, id: \.self) { titulo in
                                         RoundedRectangle(cornerRadius: 25.0)
-                                            .frame(width: 350, height: 200, alignment: .center)
+                                            .frame(width: 350, height: 160, alignment: .center)
                                             .foregroundColor(.blue)
                                             .shadow(radius: 5)
                                             .shadow(radius: 5)
                                             .padding(.top, 15)
                                             .overlay(
-                                                HStack {
-                                                    Text(titulo)
-                                                }
+                                                Text(titulo)
+                                                    .frame(width: 235, height: 170, alignment: .leading)
+                                                    .padding(.trailing, 105)
+                                                    .padding(.leading, 10)
                                             )
                                 }
                             }
@@ -134,70 +127,25 @@ struct ContentView: View {
                             VStack {
                                 ForEach (stateTesteArrayUIImage, id: \.self) {imagem in
                                     RoundedRectangle(cornerRadius: 25.0)
-                                        .foregroundColor(.black)
+                                        .frame(width: 350, height: 160, alignment: .center)
                                         .opacity(0.0)
-                                        .frame(width: 350, height: 210)
+                                        .padding(.top, 15)
                                         .overlay(
                                             Image(uiImage: imagem)
                                                 .resizable()
+                                                .cornerRadius(10)
                                                 .frame(width: 100, height: 100, alignment: .center)
+                                                .padding(.leading, 235)
                                         )
                                 }
-
                             }
-                        
                         }
-                        
-                        
-                        
-
-                        /*.overlay(
-                            ForEach (stateTesteArrayUIImage, id: \.self) { imagem in
-                                RoundedRectangle(cornerRadius: 25.0)
-                                    .foregroundColor(Color(.black).opacity(0.0))
-                                    .frame(width: 350, height: 207, alignment: .center)
-                                    .overlay(
-                                        Image(uiImage: imagem)
-                                            .resizable()
-                                            .frame(width: 100, height: 100, alignment: .center)
-                                    )
-                            }
-                        )*/
                     }
                 }
-                              
-/*                ScrollView() {
-                    if self.stateTesteArrayUIImage.count == imageToReturn.count {
-                        VStack {
-                            ForEach(imageToReturn, id: \.self) { images in
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 25.0)
-                                        .frame(width: 350, height: 200, alignment: .center)
-                                        .foregroundColor(.blue)
-                                        .shadow(radius: 5)
-                                        .shadow(radius: 5)
-                                        .padding(.top, 15)
-                                
-                                    HStack{
-                                        Text(String(describing: self.stateArtigosArray[atualizaIndexParaArtigos()]))
-                                            .multilineTextAlignment(.center)
-                                            .padding(.top, 5)
-                                            .padding(.leading, 5)
-                                            .padding(.trailing, 5)
-                                        
-                                        Image(uiImage: images)
-                                            .resizable()
-                                            .frame(width: 100, height: 100, alignment: .center)
-                                        
-                                    }
-                                }
-                            }
-                        } .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    }
-*/                }
             }
         }
     }
+}
 
 
 struct ContentView_Previews: PreviewProvider {
