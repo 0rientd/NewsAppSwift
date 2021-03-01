@@ -8,11 +8,15 @@
 import SwiftUI
 import Foundation
 
+var imageToReturn = [UIImage]()
+var imagemTestTemp = UIImage()
+
 struct ContentView: View {
     
     @State private var stateArtigosArray = [String]()
     @State private var stateArtigosImagensArray = [String]()
     @State private var stateTesteArrayUIImage = [UIImage]()
+    @State private var indexParaArtigos = 0
     
     let url = URL(string: "https://newsapi.org/v2/top-headlines?country=br&apiKey=295414512a19411a93582f0f697449e9")
     
@@ -24,20 +28,24 @@ struct ContentView: View {
         if let dictionary = content as? [String: Any] {
             if let teste = dictionary["articles"] as? [[String: Any]] {
                 for conteudo in teste {
-                    artigosArray.append(String(describing: conteudo["title"]!))
-                    artigosImagensArray.append(String(describing: conteudo["urlToImage"]!))
+                    if String(describing: conteudo["urlToImage"]!) != "<null>" {
+                        artigosArray.append(String(describing: conteudo["title"]!))
+                        artigosImagensArray.append(String(describing: conteudo["urlToImage"]!))
+                    } else {
+                        print("Achei um <null>")
+                    }
                 }
                 
                 self.stateArtigosArray = artigosArray
                 self.stateArtigosImagensArray = artigosImagensArray
                 
-                
-                print(self.stateArtigosImagensArray.count)
                 getImagesFromUrl()
 
+                print(self.stateArtigosArray.count)
+                
                 // Limpa os arrays para uma próxima atualização
                 //artigosImagensArray = [String]()
-                artigosArray = [String]()
+                //artigosArray = [String]()
                 
             } else {
                 print("Erro aqui => 2")
@@ -49,10 +57,9 @@ struct ContentView: View {
         
         }
     }
-    
+        
     func getImagesFromUrl() {
         print("Inicializando download das imagens....")
-        var imageToReturn = [UIImage]()
         
         for url in self.stateArtigosImagensArray {
             print("Fazendo request para a URL => \(url)")
@@ -64,6 +71,8 @@ struct ContentView: View {
                 }
             }
             
+            print("Do self => \(self.stateTesteArrayUIImage.count)")
+            print("Da Variavel Global => \(imageToReturn.count)")
             self.stateTesteArrayUIImage = imageToReturn
         }
         
@@ -87,7 +96,7 @@ struct ContentView: View {
                     .shadow(radius: 10)
                     .frame(width: 170, height: 50, alignment: .center)
                     .overlay(
-                        Button("Atualziar Notícias") {
+                        Button("Atualizar Notícias") {
                             let config = URLSessionConfiguration.default
                             config.waitsForConnectivity = true
                             config.timeoutIntervalForResource = 60
@@ -104,37 +113,92 @@ struct ContentView: View {
                 Spacer()
                 
                 ScrollView() {
-                    if stateTesteArrayUIImage.count > 1 {
-                        VStack {
-                            ForEach(0..<stateTesteArrayUIImage.count) { index in
+                    if self.stateTesteArrayUIImage.count == imageToReturn.count {
+                        ZStack {
+                            VStack {
+                                ForEach(stateArtigosArray, id: \.self) { titulo in
+                                        RoundedRectangle(cornerRadius: 25.0)
+                                            .frame(width: 350, height: 200, alignment: .center)
+                                            .foregroundColor(.blue)
+                                            .shadow(radius: 5)
+                                            .shadow(radius: 5)
+                                            .padding(.top, 15)
+                                            .overlay(
+                                                HStack {
+                                                    Text(titulo)
+                                                }
+                                            )
+                                }
+                            }
+                            
+                            VStack {
+                                ForEach (stateTesteArrayUIImage, id: \.self) {imagem in
+                                    RoundedRectangle(cornerRadius: 25.0)
+                                        .foregroundColor(.black)
+                                        .opacity(0.0)
+                                        .frame(width: 350, height: 210)
+                                        .overlay(
+                                            Image(uiImage: imagem)
+                                                .resizable()
+                                                .frame(width: 100, height: 100, alignment: .center)
+                                        )
+                                }
+
+                            }
+                        
+                        }
+                        
+                        
+                        
+
+                        /*.overlay(
+                            ForEach (stateTesteArrayUIImage, id: \.self) { imagem in
                                 RoundedRectangle(cornerRadius: 25.0)
-                                    .frame(width: 350, height: 200, alignment: .center)
-                                    .foregroundColor(.blue)
-                                    .shadow(radius: 5)
-                                    .shadow(radius: 5)
-                                    .padding(.top, 15)
+                                    .foregroundColor(Color(.black).opacity(0.0))
+                                    .frame(width: 350, height: 207, alignment: .center)
                                     .overlay(
-                                        Text(String(describing: self.stateArtigosArray[index]))
+                                        Image(uiImage: imagem)
+                                            .resizable()
+                                            .frame(width: 100, height: 100, alignment: .center)
+                                    )
+                            }
+                        )*/
+                    }
+                }
+                              
+/*                ScrollView() {
+                    if self.stateTesteArrayUIImage.count == imageToReturn.count {
+                        VStack {
+                            ForEach(imageToReturn, id: \.self) { images in
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 25.0)
+                                        .frame(width: 350, height: 200, alignment: .center)
+                                        .foregroundColor(.blue)
+                                        .shadow(radius: 5)
+                                        .shadow(radius: 5)
+                                        .padding(.top, 15)
+                                
+                                    HStack{
+                                        Text(String(describing: self.stateArtigosArray[atualizaIndexParaArtigos()]))
                                             .multilineTextAlignment(.center)
                                             .padding(.top, 5)
                                             .padding(.leading, 5)
                                             .padding(.trailing, 5)
-                                        )
-                                    .overlay(
-                                        Image(uiImage: self.stateTesteArrayUIImage[index])
+                                        
+                                        Image(uiImage: images)
                                             .resizable()
-                                            .frame(width: 64, height: 64, alignment: .trailing)
-                                    )
-
-                                
+                                            .frame(width: 100, height: 100, alignment: .center)
+                                        
+                                    }
+                                }
                             }
                         } .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
-                }
+*/                }
             }
         }
     }
-}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
