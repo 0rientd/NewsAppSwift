@@ -9,14 +9,17 @@ import SwiftUI
 import Foundation
 
 let url = URL(string: "https://newsapi.org/v2/top-headlines?country=br&apiKey=295414512a19411a93582f0f697449e9")
-
+var imageToReturn = [UIImage]()
 
 struct ContentView: View {
     
     @State private var stateArtigosArray = [String]()
     @State private var stateArtigosImagensArray = [String]()
     @State private var stateTesteArrayUIImage = [UIImage]()
-    @State private var indexParaArtigos = 0
+    @State private var estaCarregandoNoticias = true
+    
+    @State private var widthFrameCarregamentoNoticias = CGFloat(50)
+    @State private var heightFrameCarregamentoNoticias = CGFloat(50)
     
     func handle(data: Data?, response: URLResponse?, error: Error?) {
         let conteudoJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
@@ -50,24 +53,46 @@ struct ContentView: View {
     func getImagesFromUrl() {
         print("Inicializando download das imagens....")
         
-        var imageToReturn = [UIImage]()
+        imageToReturn = [UIImage]()
         self.stateTesteArrayUIImage = [UIImage]()
         
         for url in self.stateArtigosImagensArray {
-            print("Fazendo request para a URL => \(url)")
             if let getURL = URL(string: url) {
-                if let data = try? Data(contentsOf: getURL) {
-                    if let image = UIImage(data: data) {
-                        imageToReturn.append(image)
+                do {
+                    if let data = try Optional(Data(contentsOf: getURL)) {
+                        if let image = UIImage(data: data) {
+                            imageToReturn.append(image)
+                        }
                     }
+                } catch {
+                    print("=====================")
+                    print(error.localizedDescription)
+                    imageToReturn.append(UIImage(imageLiteralResourceName: "Erro - Sem Imagem"))
                 }
             }
             
             print("Do self => \(self.stateTesteArrayUIImage.count)")
             print("Da Variavel Global => \(imageToReturn.count)")
             self.stateTesteArrayUIImage = imageToReturn
+            
+            if self.stateTesteArrayUIImage.count == self.stateArtigosArray.count {
+                self.estaCarregandoNoticias = false
+            }
         }
         
+        print("print do self.stateTesteArrayUIImage.count => \(self.stateTesteArrayUIImage.count)")
+        print("print do self.stateArtigosArray.count => \(self.stateArtigosArray.count)")
+        print("print do imageToReturn.count => \(imageToReturn.count)")
+        
+    }
+    
+    func requestNews() {
+        let config = URLSessionConfiguration.default
+        config.waitsForConnectivity = true
+        config.timeoutIntervalForResource = 60
+        let session = URLSession(configuration: config)
+        let task = session.dataTask(with: url!, completionHandler: handle(data:response:error:))
+        task.resume()
     }
     
     var body: some View {
@@ -76,6 +101,7 @@ struct ContentView: View {
                 Text("NewsApp")
                     .font(.largeTitle)
                     .bold()
+                    .onAppear(perform: requestNews)
                 
                 Text("by 0rientd")
                     .font(.system(size: 13))
@@ -89,22 +115,45 @@ struct ContentView: View {
                     .frame(width: 170, height: 50, alignment: .center)
                     .overlay(
                         Button("Atualizar Notícias") {
-                            let config = URLSessionConfiguration.default
-                            config.waitsForConnectivity = true
-                            config.timeoutIntervalForResource = 60
-                            let session = URLSession(configuration: config)
-                            let task = session.dataTask(with: url!, completionHandler: handle(data:response:error:))
-                            task.resume()
+                            requestNews()
+                            
+                            self.estaCarregandoNoticias = true
                             
                             self.stateArtigosArray = [String]()
                             self.stateArtigosImagensArray = [String]()
                             
-                        }.accentColor(.black)
+                        }
+                        .accentColor(.black)
                     )
                 
                 Spacer()
                 
                 ScrollView() {
+                    if self.estaCarregandoNoticias == true {
+                        RoundedRectangle(cornerRadius: 25)
+                            .foregroundColor(.blue)
+                            .frame(width: self.widthFrameCarregamentoNoticias, height: self.heightFrameCarregamentoNoticias, alignment: .center)
+                            .padding(.top, 150)
+                            .overlay(
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .overlay(
+                                        Text("Carregando Notícias")
+                                            .multilineTextAlignment(.center)
+                                            .padding(.top, 60)
+                                            .frame(width: 150, height: 150, alignment: .center)
+                                    )
+                                    .padding(.top, 135)
+                            )
+                            .animation(
+                                        Animation.easeIn(duration: 1)
+                                    )
+                            .onAppear {
+                                self.widthFrameCarregamentoNoticias += 100
+                                self.heightFrameCarregamentoNoticias += 100
+                            }
+                    }
+                    
                     if self.stateTesteArrayUIImage.count == self.stateArtigosArray.count {
                         ZStack {
                             VStack {
@@ -117,9 +166,9 @@ struct ContentView: View {
                                             .padding(.top, 15)
                                             .overlay(
                                                 Text(titulo)
-                                                    .frame(width: 235, height: 170, alignment: .leading)
-                                                    .padding(.trailing, 105)
-                                                    .padding(.leading, 10)
+                                                    .multilineTextAlignment(.center)
+                                                    .frame(width: 200, height: 150, alignment: .leading)
+                                                    .padding(.trailing, 110)
                                             )
                                 }
                             }
@@ -135,11 +184,11 @@ struct ContentView: View {
                                                 .resizable()
                                                 .cornerRadius(10)
                                                 .frame(width: 100, height: 100, alignment: .center)
-                                                .padding(.leading, 235)
+                                                .padding(.leading, 210)
                                         )
                                 }
                             }
-                        }
+                        }.frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }
             }
