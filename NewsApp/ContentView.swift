@@ -8,7 +8,6 @@
 import SwiftUI
 import Foundation
 
-let url = URL(string: "https://newsapi.org/v2/top-headlines?country=br&apiKey=295414512a19411a93582f0f697449e9")
 var imageToReturn = [UIImage]()
 
 struct ContentView: View {
@@ -17,6 +16,7 @@ struct ContentView: View {
     @State private var stateUrlArtigosArray = [String]()
     @State private var stateArrayUIImage = [UIImage]()
     @State private var estaCarregandoNoticias = true
+    @State private var estaMostrandoTelaPais = false
     
     @State private var widthFrameCarregamentoNoticias = CGFloat(50)
     @State private var heightFrameCarregamentoNoticias = CGFloat(50)
@@ -85,11 +85,13 @@ struct ContentView: View {
     }
     
     func requestNews() {
+        let defaultUrl = URL(string: "https://newsapi.org/v2/top-headlines?country=\(paisSelecionado)&apiKey=295414512a19411a93582f0f697449e9")
+        
         let config = URLSessionConfiguration.default
         config.waitsForConnectivity = true
         config.timeoutIntervalForResource = 60
         let session = URLSession(configuration: config)
-        let task = session.dataTask(with: url!, completionHandler: handle(data:response:error:))
+        let task = session.dataTask(with: defaultUrl!, completionHandler: handle(data:response:error:))
         task.resume()
     }
     
@@ -125,6 +127,10 @@ struct ContentView: View {
                         }
                         .accentColor(.black)
                     )
+                
+                Spacer()
+
+                NavBar()
                 
                 Spacer()
                 

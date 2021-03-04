@@ -11,7 +11,7 @@
 		2C7374A325E2F4E400A4FF17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7374A225E2F4E400A4FF17 /* ContentView.swift */; };
 		2C7374A525E2F4E600A4FF17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C7374A425E2F4E600A4FF17 /* Assets.xcassets */; };
 		2C7374A825E2F4E600A4FF17 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C7374A725E2F4E600A4FF17 /* Preview Assets.xcassets */; };
-		2C9BF77325F082AF0080C8A1 /* TopMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BF77225F082AF0080C8A1 /* TopMainView.swift */; };
+		2C9BF77C25F0873F0080C8A1 /* NavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BF77B25F0873F0080C8A1 /* NavBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,7 +21,7 @@
 		2C7374A425E2F4E600A4FF17 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C7374A725E2F4E600A4FF17 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2C7374A925E2F4E600A4FF17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2C9BF77225F082AF0080C8A1 /* TopMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMainView.swift; sourceTree = "<group>"; };
+		2C9BF77B25F0873F0080C8A1 /* NavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +56,7 @@
 			children = (
 				2C7374A025E2F4E400A4FF17 /* NewsAppApp.swift */,
 				2C7374A225E2F4E400A4FF17 /* ContentView.swift */,
-				2C9BF77225F082AF0080C8A1 /* TopMainView.swift */,
+				2C9BF77B25F0873F0080C8A1 /* NavBar.swift */,
 				2C7374A425E2F4E600A4FF17 /* Assets.xcassets */,
 				2C7374A925E2F4E600A4FF17 /* Info.plist */,
 				2C7374A625E2F4E600A4FF17 /* Preview Content */,
@@ -146,8 +146,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C7374A325E2F4E400A4FF17 /* ContentView.swift in Sources */,
-				2C9BF77325F082AF0080C8A1 /* TopMainView.swift in Sources */,
 				2C7374A125E2F4E400A4FF17 /* NewsAppApp.swift in Sources */,
+				2C9BF77C25F0873F0080C8A1 /* NavBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
