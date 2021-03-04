@@ -14,8 +14,8 @@ var imageToReturn = [UIImage]()
 struct ContentView: View {
     
     @State private var stateArtigosArray = [String]()
-    @State private var stateArtigosImagensArray = [String]()
-    @State private var stateTesteArrayUIImage = [UIImage]()
+    @State private var stateUrlArtigosArray = [String]()
+    @State private var stateArrayUIImage = [UIImage]()
     @State private var estaCarregandoNoticias = true
     
     @State private var widthFrameCarregamentoNoticias = CGFloat(50)
@@ -36,7 +36,7 @@ struct ContentView: View {
                 }
                 
                 self.stateArtigosArray = artigosArray
-                self.stateArtigosImagensArray = artigosImagensArray
+                self.stateUrlArtigosArray = artigosImagensArray
                 
                 getImagesFromUrl()
                 
@@ -54,9 +54,9 @@ struct ContentView: View {
         print("Inicializando download das imagens....")
         
         imageToReturn = [UIImage]()
-        self.stateTesteArrayUIImage = [UIImage]()
+        self.stateArrayUIImage = [UIImage]()
         
-        for url in self.stateArtigosImagensArray {
+        for url in self.stateUrlArtigosArray {
             if let getURL = URL(string: url) {
                 do {
                     if let data = try Optional(Data(contentsOf: getURL)) {
@@ -70,19 +70,17 @@ struct ContentView: View {
                     imageToReturn.append(UIImage(imageLiteralResourceName: "Erro - Sem Imagem"))
                 }
             }
+
+            self.stateArrayUIImage = imageToReturn
             
-            print("Do self => \(self.stateTesteArrayUIImage.count)")
-            print("Da Variavel Global => \(imageToReturn.count)")
-            self.stateTesteArrayUIImage = imageToReturn
-            
-            if self.stateTesteArrayUIImage.count == self.stateArtigosArray.count {
+            if self.stateArrayUIImage.count == self.stateArtigosArray.count {
                 self.estaCarregandoNoticias = false
             }
         }
         
-        print("print do self.stateTesteArrayUIImage.count => \(self.stateTesteArrayUIImage.count)")
-        print("print do self.stateArtigosArray.count => \(self.stateArtigosArray.count)")
-        print("print do imageToReturn.count => \(imageToReturn.count)")
+        print("Quantidade do self.stateTesteArrayUIImage.count => \(self.stateArrayUIImage.count)")
+        print("Quantidade do self.stateArtigosArray.count => \(self.stateArtigosArray.count)")
+        print("Quantidade do imageToReturn.count => \(imageToReturn.count)")
         
     }
     
@@ -120,7 +118,9 @@ struct ContentView: View {
                             self.estaCarregandoNoticias = true
                             
                             self.stateArtigosArray = [String]()
-                            self.stateArtigosImagensArray = [String]()
+                            self.stateUrlArtigosArray = [String]()
+                            heightFrameCarregamentoNoticias = CGFloat(50)
+                            widthFrameCarregamentoNoticias = CGFloat(50)
                             
                         }
                         .accentColor(.black)
@@ -144,17 +144,16 @@ struct ContentView: View {
                                             .frame(width: 150, height: 150, alignment: .center)
                                     )
                                     .padding(.top, 135)
+                            ).animation(
+                                Animation.easeInOut(duration: 0.7)
                             )
-                            .animation(
-                                        Animation.easeIn(duration: 1)
-                                    )
                             .onAppear {
                                 self.widthFrameCarregamentoNoticias += 100
                                 self.heightFrameCarregamentoNoticias += 100
                             }
                     }
                     
-                    if self.stateTesteArrayUIImage.count == self.stateArtigosArray.count {
+                    if self.stateArrayUIImage.count == self.stateArtigosArray.count {
                         ZStack {
                             VStack {
                                 ForEach(stateArtigosArray, id: \.self) { titulo in
@@ -174,7 +173,7 @@ struct ContentView: View {
                             }
                             
                             VStack {
-                                ForEach (stateTesteArrayUIImage, id: \.self) {imagem in
+                                ForEach (stateArrayUIImage, id: \.self) {imagem in
                                     RoundedRectangle(cornerRadius: 25.0)
                                         .frame(width: 350, height: 160, alignment: .center)
                                         .opacity(0.0)
