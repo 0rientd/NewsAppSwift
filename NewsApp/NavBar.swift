@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-var paisSelecionado = "us"
+var paisSelecionado = loadSavedCountryNews()
 
 struct NavBar: View {
     @State private var estaMostrandoTelaPais = false
@@ -28,7 +28,7 @@ struct NavBar: View {
                     .accentColor(.black)
                 )
                 .sheet(isPresented: $estaMostrandoTelaPais) {
-                    PaisConfigView()
+                    PaisConfigView(isPresented: $estaMostrandoTelaPais)
                 }
             
             Spacer()
@@ -39,6 +39,7 @@ struct NavBar: View {
                 .frame(width: 100, height: 30, alignment: .center)
                 .overlay(
                     Text("Assunto")
+                        .accentColor(.black)
                 )
             
             Spacer()
@@ -47,7 +48,8 @@ struct NavBar: View {
 }
 
 struct PaisConfigView: View {
-    @State private var paisPadrao = "us"
+    @Binding var isPresented: Bool
+    @State private var paisPadrao = loadSavedCountryNews()
     
     let paises = ["ae", "ar","at","au","be","bg","br", "ca", "ch", "cn","co", "cu","cz","de","eg","fr","gb","gr","hk","hu","id","ie","il","in","it","jp","kr","lt","lv","ma","mx","my","ng","nl","no","nz","ph","pl","pt","ro","rs","ru","sa","se","sg","si","sk","th","tr","tw","ua","us","ve","za"]
     
@@ -72,10 +74,20 @@ struct PaisConfigView: View {
         
         Spacer()
         
-        Button("Confirmar") {
-            paisSelecionado = paisPadrao
-        }
-        
+        RoundedRectangle(cornerRadius: 25.0)
+            .foregroundColor(.blue)
+            .frame(width: 100, height: 35, alignment: .center)
+            .overlay(
+                Button("Confirmar") {
+                    paisSelecionado = paisPadrao
+                    isPresented = false
+                    
+                    saveCountryNews(country: self.paisPadrao)
+                }
+                .accentColor(.black)
+            )
+            .padding(.bottom, 5)
+            .padding(.top, 10)
     }
 }
 

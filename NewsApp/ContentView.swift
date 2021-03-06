@@ -11,12 +11,11 @@ import Foundation
 var imageToReturn = [UIImage]()
 
 struct ContentView: View {
-    
+    @State private var feedback = UINotificationFeedbackGenerator()
     @State private var stateArtigosArray = [String]()
     @State private var stateUrlArtigosArray = [String]()
     @State private var stateArrayUIImage = [UIImage]()
     @State private var estaCarregandoNoticias = true
-    @State private var estaMostrandoTelaPais = false
     
     @State private var widthFrameCarregamentoNoticias = CGFloat(50)
     @State private var heightFrameCarregamentoNoticias = CGFloat(50)
@@ -123,6 +122,7 @@ struct ContentView: View {
                             self.stateUrlArtigosArray = [String]()
                             heightFrameCarregamentoNoticias = CGFloat(50)
                             widthFrameCarregamentoNoticias = CGFloat(50)
+                            self.feedback.prepare()
                             
                         }
                         .accentColor(.black)
@@ -156,6 +156,9 @@ struct ContentView: View {
                             .onAppear {
                                 self.widthFrameCarregamentoNoticias += 100
                                 self.heightFrameCarregamentoNoticias += 100
+                            }
+                            .onDisappear {
+                                self.feedback.notificationOccurred(.success)
                             }
                     }
                     
