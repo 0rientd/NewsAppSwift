@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C6854C425F4344D00CC4A31 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6854C325F4344D00CC4A31 /* UserDefaults.swift */; };
+		2C6854C825F4406800CC4A31 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2C6854C725F4406800CC4A31 /* README.md */; };
 		2C7374A125E2F4E400A4FF17 /* NewsAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7374A025E2F4E400A4FF17 /* NewsAppApp.swift */; };
 		2C7374A325E2F4E400A4FF17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7374A225E2F4E400A4FF17 /* ContentView.swift */; };
 		2C7374A525E2F4E600A4FF17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C7374A425E2F4E600A4FF17 /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		2C6854C325F4344D00CC4A31 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		2C6854C725F4406800CC4A31 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2C73749D25E2F4E300A4FF17 /* NewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C7374A025E2F4E400A4FF17 /* NewsAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsAppApp.swift; sourceTree = "<group>"; };
 		2C7374A225E2F4E400A4FF17 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -40,6 +42,7 @@
 		2C73749425E2F4E300A4FF17 = {
 			isa = PBXGroup;
 			children = (
+				2C6854C725F4406800CC4A31 /* README.md */,
 				2C73749F25E2F4E300A4FF17 /* NewsApp */,
 				2C73749E25E2F4E300A4FF17 /* Products */,
 			);
@@ -136,6 +139,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C6854C825F4406800CC4A31 /* README.md in Resources */,
 				2C7374A825E2F4E600A4FF17 /* Preview Assets.xcassets in Resources */,
 				2C7374A525E2F4E600A4FF17 /* Assets.xcassets in Resources */,
 			);
