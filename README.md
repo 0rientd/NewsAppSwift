@@ -12,5 +12,6 @@ This project is for study purpose.
 - [] Make possibibly to change the app language
 - [] Make a better UI for the ContentView
 - [] Remove some functions from inside ContentView
+- [] Create a class to make images and make less hardcoded the assuntoView
 
 ----------------
