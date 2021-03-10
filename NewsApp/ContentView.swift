@@ -21,7 +21,7 @@ struct ContentView: View {
     @State private var heightFrameCarregamentoNoticias = CGFloat(50)
     
     func handle(data: Data?, response: URLResponse?, error: Error?) {
-        let conteudoJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
+        let conteudoJSON = try? JSONSerialization.jsonObject(with: data!, options: []) // CHANCE DE RETORNAR NILL QUANDO ESPERADO OUTRO VALOR
         var artigosArray = [String]()
         var artigosImagensArray = [String]()
         

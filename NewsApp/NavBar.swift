@@ -123,120 +123,25 @@ struct assuntoConfigView: View {
         ScrollView {
             HStack {
                 VStack {
-                    Image(uiImage: #imageLiteral(resourceName: "Business-AssuntoView"))
-                        .resizable()
-                        .frame(width: 150, height: 250, alignment: .center)
-                        .cornerRadius(25.0)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 25.0)
-                                .frame(width: 150, height: 250, alignment: .center)
-                                .foregroundColor(.gray)
-                                .opacity(0.5)
-                                .overlay(
-                                    Text("Business")
-                                        .bold()
-                                        .foregroundColor(.white)
-                                        .padding(.top, 200)
-                                        .font(.title3)
-                                )
-                        )
+                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Business-AssuntoView")), assunto: "Negócios", corDeFundo: .gray, opacidade: 0.5)
                         .padding(.bottom, 15)
                     
-                    Image(uiImage: #imageLiteral(resourceName: "Health-AssuntoView"))
-                        .resizable()
-                        .frame(width: 150, height: 250, alignment: .center)
-                        .cornerRadius(25.0)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 25.0)
-                                .frame(width: 150, height: 250, alignment: .center)
-                                .foregroundColor(.pink)
-                                .opacity(0.3)
-                                .overlay(
-                                    Text("Health")
-                                        .bold()
-                                        .foregroundColor(.white)
-                                        .padding(.top, 200)
-                                        .font(.title3)
-                                )
-                        )
+                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Health-AssuntoView")), assunto: "Saúde", corDeFundo: .pink, opacidade: 0.3)
                         .padding(.bottom, 15)
+
+                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Entertainment-AssuntoView")), assunto: "Entretenimento", corDeFundo: .orange, opacidade: 0.2)
                     
-                    Image(uiImage: #imageLiteral(resourceName: "Entertainment-AssuntoView"))
-                        .resizable()
-                        .frame(width: 150, height: 250, alignment: .center)
-                        .cornerRadius(25.0)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 25.0)
-                                .frame(width: 150, height: 250, alignment: .center)
-                                .foregroundColor(.orange)
-                                .opacity(0.2)
-                                .overlay(
-                                    Text("Entertainment")
-                                        .bold()
-                                        .foregroundColor(.white)
-                                        .padding(.top, 200)
-                                        .font(.title3)
-                                )
-                        )
                 }
                 
                 VStack {
-                    Image(uiImage: #imageLiteral(resourceName: "Sports-AssuntoView"))
-                        .resizable()
-                        .frame(width: 150, height: 250, alignment: .center)
-                        .cornerRadius(25.0)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 25.0)
-                                .frame(width: 150, height: 250, alignment: .center)
-                                .foregroundColor(.green)
-                                .opacity(0.2)
-                                .overlay(
-                                    Text("Sports")
-                                        .bold()
-                                        .foregroundColor(.white)
-                                        .padding(.top, 200)
-                                        .font(.title3)
-                                )
-                        )
+                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Sports-AssuntoView")), assunto: "Esporte", corDeFundo: .green, opacidade: 0.2)
                         .padding(.top, 125)
                         .padding(.bottom, 15)
                                     
-                    Image(uiImage: #imageLiteral(resourceName: "Sicence-AssuntoView"))
-                        .resizable()
-                        .frame(width: 150, height: 250, alignment: .center)
-                        .cornerRadius(25.0)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 25.0)
-                                .frame(width: 150, height: 250, alignment: .center)
-                                .foregroundColor(.blue)
-                                .opacity(0.2)
-                                .overlay(
-                                    Text("Science")
-                                        .bold()
-                                        .foregroundColor(.white)
-                                        .padding(.top, 200)
-                                        .font(.title3)
-                                )
-                        )
-                        .padding(.bottom, 15)
-                    
-                    Image(uiImage: #imageLiteral(resourceName: "Technology-AssuntoView"))
-                        .resizable()
-                        .frame(width: 150, height: 250, alignment: .center)
-                        .cornerRadius(25.0)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 25.0)
-                                .frame(width: 150, height: 250, alignment: .center)
-                                .foregroundColor(.green)
-                                .opacity(0.4)
-                                .overlay(
-                                    Text("Technology")
-                                        .bold()
-                                        .foregroundColor(.white)
-                                        .padding(.top, 200)
-                                        .font(.title3)
-                                )
-                        )
+                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Sicence-AssuntoView")), assunto: "Ciência", corDeFundo: .blue, opacidade: 0.2)
+                        .padding(.bottom,15)
+
+                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Technology-AssuntoView")), assunto: "Tecnologia", corDeFundo: .green, opacidade: 0.4)
                     
                 }
                 .padding(.leading, 25)
@@ -258,6 +163,34 @@ struct assuntoConfigView: View {
             .padding(.bottom, 5)
             .padding(.top, 10)
     }
+}
+
+struct assunto: View {
+    var imagemAssunto: Image
+    var assunto: String
+    var corDeFundo: Color
+    var opacidade: Double
+    
+    var body: some View {
+        imagemAssunto
+            .resizable()
+            .frame(width: 150, height: 250, alignment: .center)
+            .cornerRadius(25.0)
+            .overlay(
+                RoundedRectangle(cornerRadius: 25.0)
+                    .frame(width: 150, height: 250, alignment: .center)
+                    .foregroundColor(corDeFundo)
+                    .opacity(opacidade)
+                    .overlay(
+                        Text(assunto)
+                            .bold()
+                            .foregroundColor(.white)
+                            .padding(.top, 200)
+                            .font(.title3)
+                    )
+            )
+    }
+    
 }
 
 struct NavBar_Previews: PreviewProvider {
