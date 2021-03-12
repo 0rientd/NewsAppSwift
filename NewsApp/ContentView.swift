@@ -84,7 +84,8 @@ struct ContentView: View {
     }
     
     func requestNews() {
-        let defaultUrl = URL(string: "https://newsapi.org/v2/top-headlines?country=\(paisSelecionado)&apiKey=295414512a19411a93582f0f697449e9")
+        let defaultUrl = URL(string: "https://newsapi.org/v2/top-headlines?country=\(paisSelecionado)\(categoriaSelecionada)&apiKey=295414512a19411a93582f0f697449e9")
+        print(String(describing: defaultUrl))
         
         let config = URLSessionConfiguration.default
         config.waitsForConnectivity = true

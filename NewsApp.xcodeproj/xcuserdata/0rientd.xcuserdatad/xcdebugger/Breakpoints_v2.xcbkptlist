@@ -14,10 +14,87 @@
             filePath = "NewsApp/NavBar.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "assuntoConfigView"
             landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "13770337-091A-46B1-A0E9-DCC80BDB0132 - e3872ec0e1918350"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NewsApp.assuntoConfigView.isPresented.getter : Swift.Bool"
+                  moduleName = "NewsApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/0rientd/Documents/devSwift/NewsApp/NewsApp/NewsApp/NavBar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "114"
+                  endingLineNumber = "114"
+                  offsetFromSymbolStart = "208">
+               </Location>
+               <Location
+                  uuid = "13770337-091A-46B1-A0E9-DCC80BDB0132 - 9f5937d646ec5b5c"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NewsApp.assuntoConfigView.isPresented.setter : Swift.Bool"
+                  moduleName = "NewsApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/0rientd/Documents/devSwift/NewsApp/NewsApp/NewsApp/NavBar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "114"
+                  endingLineNumber = "114"
+                  offsetFromSymbolStart = "224">
+               </Location>
+               <Location
+                  uuid = "13770337-091A-46B1-A0E9-DCC80BDB0132 - 259fd86cbb315d4f"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NewsApp.assuntoConfigView.isPresented.modify : Swift.Bool"
+                  moduleName = "NewsApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/0rientd/Documents/devSwift/NewsApp/NewsApp/NewsApp/NavBar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "114"
+                  endingLineNumber = "114"
+                  offsetFromSymbolStart = "56">
+               </Location>
+               <Location
+                  uuid = "13770337-091A-46B1-A0E9-DCC80BDB0132 - 8d9075d8fce25f5c"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NewsApp.assuntoConfigView.isPresented.modify : Swift.Bool with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "NewsApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/0rientd/Documents/devSwift/NewsApp/NewsApp/NewsApp/NavBar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "114"
+                  endingLineNumber = "114"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "13770337-091A-46B1-A0E9-DCC80BDB0132 - 78b8ddef0af2d94"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NewsApp.assuntoConfigView.$isPresented.getter : SwiftUI.Binding&lt;Swift.Bool&gt;"
+                  moduleName = "NewsApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/0rientd/Documents/devSwift/NewsApp/NewsApp/NewsApp/NavBar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "114"
+                  endingLineNumber = "114"
+                  offsetFromSymbolStart = "228">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

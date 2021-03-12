@@ -8,6 +8,7 @@
 import SwiftUI
 
 var paisSelecionado = loadSavedCountryNews()
+var categoriaSelecionada = ""
 
 struct NavBar: View {
     @State private var estaMostrandoTelaPais = false
@@ -62,6 +63,9 @@ struct NavBar: View {
             
             Spacer()
         }
+        .onAppear(perform: {
+            loadCategoryOnAppear()
+        })
     }
 }
 
@@ -123,25 +127,25 @@ struct assuntoConfigView: View {
         ScrollView {
             HStack {
                 VStack {
-                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Business-AssuntoView")), assunto: "Negócios", corDeFundo: .gray, opacidade: 0.5)
+                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Business-AssuntoView")), categoria: "Business", corDeFundo: .gray, opacidade: 0.5)
                         .padding(.bottom, 15)
-                    
-                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Health-AssuntoView")), assunto: "Saúde", corDeFundo: .pink, opacidade: 0.3)
+                        
+                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Health-AssuntoView")), categoria: "Health", corDeFundo: .pink, opacidade: 0.3)
                         .padding(.bottom, 15)
 
-                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Entertainment-AssuntoView")), assunto: "Entretenimento", corDeFundo: .orange, opacidade: 0.2)
+                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Entertainment-AssuntoView")), categoria: "Entertenaiment", corDeFundo: .orange, opacidade: 0.2)
                     
                 }
                 
                 VStack {
-                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Sports-AssuntoView")), assunto: "Esporte", corDeFundo: .green, opacidade: 0.2)
+                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Sports-AssuntoView")), categoria: "Sports", corDeFundo: .green, opacidade: 0.2)
                         .padding(.top, 125)
                         .padding(.bottom, 15)
                                     
-                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Sicence-AssuntoView")), assunto: "Ciência", corDeFundo: .blue, opacidade: 0.2)
+                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Sicence-AssuntoView")), categoria: "Science", corDeFundo: .blue, opacidade: 0.2)
                         .padding(.bottom,15)
 
-                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Technology-AssuntoView")), assunto: "Tecnologia", corDeFundo: .green, opacidade: 0.4)
+                    assunto(imagemAssunto: Image(uiImage: #imageLiteral(resourceName: "Technology-AssuntoView")), categoria: "Technology", corDeFundo: .green, opacidade: 0.4)
                     
                 }
                 .padding(.leading, 25)
@@ -167,28 +171,57 @@ struct assuntoConfigView: View {
 
 struct assunto: View {
     var imagemAssunto: Image
-    var assunto: String
+    var categoria: String
     var corDeFundo: Color
     var opacidade: Double
     
+    @State private var estaMarcado = Color.gray
+    
     var body: some View {
-        imagemAssunto
-            .resizable()
-            .frame(width: 150, height: 250, alignment: .center)
-            .cornerRadius(25.0)
-            .overlay(
-                RoundedRectangle(cornerRadius: 25.0)
-                    .frame(width: 150, height: 250, alignment: .center)
-                    .foregroundColor(corDeFundo)
-                    .opacity(opacidade)
-                    .overlay(
-                        Text(assunto)
-                            .bold()
-                            .foregroundColor(.white)
-                            .padding(.top, 200)
-                            .font(.title3)
-                    )
-            )
+        VStack {
+            imagemAssunto
+                .resizable()
+                .frame(width: 150, height: 250, alignment: .center)
+                .cornerRadius(25.0)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 25.0)
+                        .frame(width: 150, height: 250, alignment: .center)
+                        .foregroundColor(corDeFundo)
+                        .opacity(opacidade)
+                        .overlay(
+                            Text(categoria)
+                                .bold()
+                                .foregroundColor(.white)
+                                .padding(.top, 200)
+                                .font(.title3)
+                        )
+                        .overlay(
+                            Image(systemName: "checkmark.circle")
+                                .font(.system(size: 25))
+                                .padding(.bottom, 185)
+                                .padding(.trailing, 90)
+                                .onAppear(perform: {
+                                    self.estaMarcado = loadSavedCategory(categoria: categoria)
+                                })
+                                .foregroundColor(self.estaMarcado)
+                        )
+                )
+        }
+        .onTapGesture {
+            if self.estaMarcado == Color.gray {
+                self.estaMarcado = Color.green
+                categoriaSelecionada = "&category=\(categoria.lowercased())"
+                
+                saveCategoryNews(salvo: true, categoria: categoria)
+                
+                print(categoriaSelecionada)
+            } else {
+                self.estaMarcado = Color.gray
+                categoriaSelecionada = ""
+                
+                saveCategoryNews(salvo: false, categoria: categoria)
+            }
+        }
     }
     
 }
